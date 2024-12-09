@@ -87,4 +87,23 @@ WHERE c.Country = 'USA' AND o.OrderDate >= '2023-01-01';
 SET STATISTICS IO OFF;
 SET STATISTICS TIME OFF;
 
+--inefficient query
+SET STATISTICS IO ON;  -- Enable I/O statistics
+SET STATISTICS TIME ON; -- Enable time statistics
+SELECT *
+FROM Orders o, Customers c
+WHERE o.CustomerID = c.CustomerID
+  AND c.Country = 'USA'
+  AND o.OrderDate >= '2023-01-01';
+SET STATISTICS IO OFF;
+SET STATISTICS TIME OFF;
 
+-- Optimized Query
+SET STATISTICS IO ON;
+SET STATISTICS TIME ON;
+SELECT o.OrderID, c.Name, c.Email, o.OrderAmount, o.OrderDate
+FROM Customers c
+INNER JOIN Orders o ON c.CustomerID = o.CustomerID
+WHERE c.Country = 'USA' AND o.OrderDate >= '2023-01-01';
+SET STATISTICS IO OFF;
+SET STATISTICS TIME OFF;
