@@ -62,3 +62,28 @@ END;
 -- Checking if the tables are created and populated
 SELECT COUNT(*) AS TotalCustomers FROM Customers;
 SELECT COUNT(*) AS TotalOrders FROM Orders;
+
+-- We will drop indexes to ensure that indexes aren't present in the operation
+DROP INDEX IF EXISTS idx_country ON Customers;
+DROP INDEX IF EXISTS idx_order_date ON Orders;
+
+--run without indexing
+SET STATISTICS TIME ON; -- Enables time measurements in SQL Server
+SELECT o.OrderID, c.Name, c.Email, o.OrderAmount, o.OrderDate
+FROM Orders o
+JOIN Customers c ON o.CustomerID = c.CustomerID
+WHERE c.Country = 'USA' AND o.OrderDate >= '2023-01-01';
+SET STATISTICS TIME OFF;
+
+--we will add indexes now
+CREATE INDEX idx_country ON Customers(Country);
+CREATE INDEX idx_order_date ON Orders(OrderDate);
+
+--run with indexing
+SET STATISTICS TIME ON;
+SELECT o.OrderID, c.Name, c.Email, o.OrderAmount, o.OrderDate
+FROM Orders o
+JOIN Customers c ON o.CustomerID = c.CustomerID
+WHERE c.Country = 'USA' AND o.OrderDate >= '2023-01-01';
+SET STATISTICS TIME OFF;
+
