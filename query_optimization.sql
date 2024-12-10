@@ -68,8 +68,8 @@ DROP INDEX IF EXISTS idx_country ON Customers;
 DROP INDEX IF EXISTS idx_order_date ON Orders;
 
 --infefficient query
-SET STATISTICS IO ON;  -- Enable I/O statistics
-SET STATISTICS TIME ON; -- Enable time statistics
+SET STATISTICS IO ON;  
+SET STATISTICS TIME ON;
 SELECT *
 FROM Orders o
 JOIN Customers c ON o.CustomerID = c.CustomerID
@@ -88,8 +88,8 @@ SET STATISTICS IO OFF;
 SET STATISTICS TIME OFF;
 
 --inefficient query
-SET STATISTICS IO ON;  -- Enable I/O statistics
-SET STATISTICS TIME ON; -- Enable time statistics
+SET STATISTICS IO ON;  
+SET STATISTICS TIME ON; 
 SELECT *
 FROM Orders o, Customers c
 WHERE o.CustomerID = c.CustomerID
